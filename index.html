@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>СловоМост — онлайн переводчик</title>
+  <title>Онлайн-переводчик</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
@@ -15,7 +15,6 @@
       --mint: #7ec8a3;
       --teal: #1f6f5b;
       --teal-deep: #0f3d33;
-      --sand: #e8f0e6;
       --line: rgba(21, 32, 24, 0.12);
       --shadow: 0 18px 50px rgba(15, 61, 51, 0.14);
       --radius: 18px;
@@ -34,28 +33,77 @@
     body {
       font-family: "Manrope", sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(ellipse 80% 50% at 10% -10%, rgba(126, 200, 163, 0.45), transparent 55%),
-        radial-gradient(ellipse 70% 45% at 95% 15%, rgba(31, 111, 91, 0.18), transparent 50%),
-        linear-gradient(165deg, #eef5ec 0%, #dfece3 45%, #c9ddd2 100%);
-      background-attachment: fixed;
+      overflow-x: hidden;
+      background: linear-gradient(160deg, #eaf3ee 0%, #e2ece8 40%, #d5e4dc 100%);
     }
 
-    body::before {
-      content: "";
+    .bg {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.35;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.45;
+      will-change: transform;
+    }
+
+    .orb-a {
+      width: 42vw;
+      height: 42vw;
+      max-width: 520px;
+      max-height: 520px;
+      left: -8%;
+      top: -12%;
+      background: #9fd4b8;
+      animation: drift-a 18s ease-in-out infinite;
+    }
+
+    .orb-b {
+      width: 36vw;
+      height: 36vw;
+      max-width: 440px;
+      max-height: 440px;
+      right: -6%;
+      top: 18%;
+      background: #7eb8a8;
+      opacity: 0.32;
+      animation: drift-b 22s ease-in-out infinite;
+    }
+
+    .orb-c {
+      width: 48vw;
+      height: 48vw;
+      max-width: 560px;
+      max-height: 560px;
+      left: 28%;
+      bottom: -22%;
+      background: #c8dfd2;
+      opacity: 0.55;
+      animation: drift-c 26s ease-in-out infinite;
+    }
+
+    .bg-mesh {
+      position: absolute;
+      inset: 0;
+      opacity: 0.22;
       background-image:
-        linear-gradient(rgba(21, 32, 24, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(21, 32, 24, 0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+        radial-gradient(circle at 20% 20%, rgba(31, 111, 91, 0.08), transparent 28%),
+        radial-gradient(circle at 80% 30%, rgba(126, 200, 163, 0.12), transparent 32%),
+        linear-gradient(rgba(21, 32, 24, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 32, 24, 0.025) 1px, transparent 1px);
+      background-size: auto, auto, 56px 56px, 56px 56px;
+      mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
     }
 
     .page {
       position: relative;
+      z-index: 1;
       width: min(920px, calc(100% - 2rem));
       margin: 0 auto;
       padding: 3.5rem 0 4rem;
@@ -63,19 +111,29 @@
 
     .brand {
       font-family: "Literata", serif;
-      font-size: clamp(2.6rem, 7vw, 4.2rem);
+      font-size: clamp(2.4rem, 6.5vw, 3.8rem);
       font-weight: 700;
       letter-spacing: -0.03em;
-      line-height: 0.95;
+      line-height: 1;
       color: var(--teal-deep);
       opacity: 0;
       transform: translateY(18px);
       animation: rise 0.7s ease forwards;
     }
 
+    .brand span {
+      display: inline-block;
+      background: linear-gradient(120deg, var(--teal-deep), var(--teal) 55%, #2d8a6f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: brand-shine 8s ease-in-out infinite;
+      background-size: 180% 100%;
+    }
+
     .tagline {
       margin-top: 0.85rem;
-      max-width: 28ch;
+      max-width: 32ch;
       font-size: 1.05rem;
       line-height: 1.5;
       color: var(--ink-soft);
@@ -110,11 +168,11 @@
       padding: 0.65rem 1rem;
       border-radius: 999px;
       cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .lang:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
       border-color: rgba(31, 111, 91, 0.35);
     }
 
@@ -122,6 +180,7 @@
       background: var(--teal);
       border-color: var(--teal);
       color: #f5fbf7;
+      box-shadow: 0 8px 22px rgba(31, 111, 91, 0.22);
     }
 
     .panels {
@@ -135,24 +194,75 @@
       display: flex;
       flex-direction: column;
       min-height: 280px;
-      background: rgba(243, 247, 242, 0.82);
+      background: rgba(243, 247, 242, 0.78);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .field:focus-within {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 55px rgba(15, 61, 51, 0.16);
     }
 
     .field-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.5rem;
       padding: 0.9rem 1.1rem 0.4rem;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--teal);
+    }
+
+    .head-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .icon-btn {
+      appearance: none;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      color: var(--teal-deep);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    }
+
+    .icon-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-1px) scale(1.04);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .icon-btn.speaking {
+      color: #fff;
+      background: var(--teal);
+      border-color: var(--teal);
+      animation: speak-pulse 1s ease-in-out infinite;
+    }
+
+    .icon-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
     }
 
     textarea,
@@ -179,6 +289,10 @@
       color: rgba(58, 74, 63, 0.45);
     }
 
+    .output.reveal {
+      animation: text-in 0.45s ease;
+    }
+
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -194,11 +308,15 @@
       font-weight: 700;
       cursor: pointer;
       padding: 0.85rem 1.35rem;
-      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
     }
 
     .btn:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
     }
 
     .btn:disabled {
@@ -210,14 +328,34 @@
     .btn-primary {
       background: var(--teal-deep);
       color: #f4faf6;
+      box-shadow: 0 10px 24px rgba(15, 61, 51, 0.18);
     }
 
     .btn-primary:hover:not(:disabled) {
       background: #145044;
     }
 
+    .btn-primary.loading {
+      position: relative;
+      padding-left: 2.4rem;
+    }
+
+    .btn-primary.loading::before {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      margin-top: -7px;
+      border: 2px solid rgba(244, 250, 246, 0.35);
+      border-top-color: #f4faf6;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
     .btn-ghost {
-      background: transparent;
+      background: rgba(243, 247, 242, 0.55);
       color: var(--ink-soft);
       border: 1px solid var(--line);
     }
@@ -226,6 +364,7 @@
       min-height: 1.25rem;
       font-size: 0.9rem;
       color: var(--ink-soft);
+      transition: color 0.2s ease;
     }
 
     .status.error {
@@ -247,6 +386,46 @@
       }
     }
 
+    @keyframes drift-a {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(4%, 6%) scale(1.06); }
+    }
+
+    @keyframes drift-b {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-5%, 4%) scale(1.08); }
+    }
+
+    @keyframes drift-c {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(3%, -5%) scale(1.04); }
+    }
+
+    @keyframes brand-shine {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes speak-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(31, 111, 91, 0.35); }
+      50% { box-shadow: 0 0 0 10px rgba(31, 111, 91, 0); }
+    }
+
+    @keyframes text-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     @media (max-width: 720px) {
       .page {
         padding-top: 2.4rem;
@@ -260,12 +439,41 @@
         min-height: 220px;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .orb,
+      .brand,
+      .brand span,
+      .tagline,
+      .translator,
+      .footer-note,
+      .output.reveal,
+      .icon-btn.speaking,
+      .btn-primary.loading::before {
+        animation: none !important;
+      }
+
+      .brand,
+      .tagline,
+      .translator,
+      .footer-note {
+        opacity: 1;
+        transform: none;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="bg" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+    <div class="bg-mesh"></div>
+  </div>
+
   <main class="page">
-    <h1 class="brand">СловоМост</h1>
-    <p class="tagline">Онлайн переводчик с русского на английский, испанский, латинский и турецкий.</p>
+    <h1 class="brand"><span>Онлайн-переводчик</span></h1>
+    <p class="tagline">С русского на английский, испанский, латинский и турецкий — с озвучкой перевода.</p>
 
     <section class="translator" aria-label="Переводчик">
       <div class="langs" role="tablist" aria-label="Язык перевода">
@@ -279,7 +487,12 @@
         <label class="field">
           <div class="field-head">
             <span>Русский</span>
-            <span id="charCount">0</span>
+            <div class="head-actions">
+              <span id="charCount">0</span>
+              <button class="icon-btn" id="speakSourceBtn" type="button" title="Озвучить исходный текст" aria-label="Озвучить исходный текст">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7.5 7.5 0 0 1 0 13.42v2.06A9.5 9.5 0 0 0 14 3.23z"/></svg>
+              </button>
+            </div>
           </div>
           <textarea id="source" placeholder="Введите текст на русском…" maxlength="1000"></textarea>
         </label>
@@ -287,7 +500,12 @@
         <div class="field" aria-live="polite">
           <div class="field-head">
             <span id="targetLabel">English</span>
-            <span id="targetCode">EN</span>
+            <div class="head-actions">
+              <span id="targetCode">EN</span>
+              <button class="icon-btn" id="speakTargetBtn" type="button" title="Озвучить перевод" aria-label="Озвучить перевод">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7.5 7.5 0 0 1 0 13.42v2.06A9.5 9.5 0 0 0 14 3.23z"/></svg>
+              </button>
+            </div>
           </div>
           <div class="output placeholder" id="output">Перевод появится здесь</div>
         </div>
@@ -295,21 +513,22 @@
 
       <div class="actions">
         <button class="btn btn-primary" id="translateBtn" type="button">Перевести</button>
+        <button class="btn btn-ghost" id="speakBtn" type="button">Озвучить</button>
         <button class="btn btn-ghost" id="clearBtn" type="button">Очистить</button>
         <button class="btn btn-ghost" id="copyBtn" type="button">Копировать</button>
       </div>
       <p class="status" id="status"></p>
     </section>
 
-    <p class="footer-note">Перевод выполняется через MyMemory API. Для лучших результатов вводите короткие фразы.</p>
+    <p class="footer-note">Перевод — MyMemory API, озвучка — голос браузера. Для лучших результатов вводите короткие фразы.</p>
   </main>
 
   <script>
     const LANGS = {
-      en: { name: "English", code: "EN" },
-      es: { name: "Español", code: "ES" },
-      la: { name: "Latina", code: "LA" },
-      tr: { name: "Türkçe", code: "TR" },
+      en: { name: "English", code: "EN", voice: "en-US" },
+      es: { name: "Español", code: "ES", voice: "es-ES" },
+      la: { name: "Latina", code: "LA", voice: "it-IT" },
+      tr: { name: "Türkçe", code: "TR", voice: "tr-TR" },
     };
 
     const source = document.getElementById("source");
@@ -321,10 +540,23 @@
     const translateBtn = document.getElementById("translateBtn");
     const clearBtn = document.getElementById("clearBtn");
     const copyBtn = document.getElementById("copyBtn");
+    const speakBtn = document.getElementById("speakBtn");
+    const speakSourceBtn = document.getElementById("speakSourceBtn");
+    const speakTargetBtn = document.getElementById("speakTargetBtn");
     const langButtons = [...document.querySelectorAll(".lang")];
 
     let targetLang = "en";
     let debounceTimer = null;
+    let voices = [];
+
+    function loadVoices() {
+      voices = window.speechSynthesis?.getVoices?.() || [];
+    }
+
+    if ("speechSynthesis" in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
 
     function setStatus(text, isError = false) {
       statusEl.textContent = text;
@@ -334,9 +566,68 @@
     function setOutput(text, isPlaceholder = false) {
       output.textContent = text;
       output.classList.toggle("placeholder", isPlaceholder);
+      output.classList.remove("reveal");
+      if (!isPlaceholder) {
+        void output.offsetWidth;
+        output.classList.add("reveal");
+      }
+    }
+
+    function stopSpeech() {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+      speakSourceBtn.classList.remove("speaking");
+      speakTargetBtn.classList.remove("speaking");
+      speakBtn.classList.remove("speaking");
+    }
+
+    function pickVoice(langTag) {
+      const base = langTag.slice(0, 2).toLowerCase();
+      return (
+        voices.find((v) => v.lang === langTag) ||
+        voices.find((v) => v.lang.toLowerCase().startsWith(base + "-")) ||
+        voices.find((v) => v.lang.toLowerCase().startsWith(base)) ||
+        null
+      );
+    }
+
+    function speakText(text, langTag, button) {
+      if (!("speechSynthesis" in window)) {
+        setStatus("Озвучка не поддерживается в этом браузере.", true);
+        return;
+      }
+
+      const content = (text || "").trim();
+      if (!content) {
+        setStatus("Нечего озвучивать.");
+        return;
+      }
+
+      stopSpeech();
+      const utterance = new SpeechSynthesisUtterance(content);
+      utterance.lang = langTag;
+      utterance.rate = 0.95;
+      const voice = pickVoice(langTag);
+      if (voice) utterance.voice = voice;
+
+      utterance.onstart = () => button?.classList.add("speaking");
+      utterance.onend = () => button?.classList.remove("speaking");
+      utterance.onerror = () => {
+        button?.classList.remove("speaking");
+        setStatus("Не удалось озвучить текст.", true);
+      };
+
+      window.speechSynthesis.speak(utterance);
+      setStatus("Озвучиваем…");
+    }
+
+    function getTranslationText() {
+      return output.classList.contains("placeholder") ? "" : output.textContent.trim();
     }
 
     function selectLang(lang) {
+      stopSpeech();
       targetLang = lang;
       const meta = LANGS[lang];
       targetLabel.textContent = meta.name;
@@ -359,7 +650,9 @@
         return;
       }
 
+      stopSpeech();
       translateBtn.disabled = true;
+      translateBtn.classList.add("loading");
       setStatus("Переводим…");
 
       try {
@@ -387,6 +680,7 @@
         setStatus(error.message || "Ошибка перевода", true);
       } finally {
         translateBtn.disabled = false;
+        translateBtn.classList.remove("loading");
       }
     }
 
@@ -406,6 +700,7 @@
     source.addEventListener("input", () => {
       charCount.textContent = String(source.value.length);
       if (!source.value.trim()) {
+        stopSpeech();
         setOutput("Перевод появится здесь", true);
         setStatus("");
         return;
@@ -422,7 +717,20 @@
 
     translateBtn.addEventListener("click", translate);
 
+    speakBtn.addEventListener("click", () => {
+      speakText(getTranslationText(), LANGS[targetLang].voice, speakTargetBtn);
+    });
+
+    speakTargetBtn.addEventListener("click", () => {
+      speakText(getTranslationText(), LANGS[targetLang].voice, speakTargetBtn);
+    });
+
+    speakSourceBtn.addEventListener("click", () => {
+      speakText(source.value, "ru-RU", speakSourceBtn);
+    });
+
     clearBtn.addEventListener("click", () => {
+      stopSpeech();
       source.value = "";
       charCount.textContent = "0";
       setOutput("Перевод появится здесь", true);
@@ -431,7 +739,7 @@
     });
 
     copyBtn.addEventListener("click", async () => {
-      const text = output.classList.contains("placeholder") ? "" : output.textContent;
+      const text = getTranslationText();
       if (!text) {
         setStatus("Нечего копировать.");
         return;
@@ -443,6 +751,8 @@
         setStatus("Не удалось скопировать текст.", true);
       }
     });
+
+    window.addEventListener("beforeunload", stopSpeech);
   </script>
 </body>
 </html>
