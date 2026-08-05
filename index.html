@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>СловоМост — онлайн переводчик</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #152018;
+      --ink-soft: #3a4a3f;
+      --paper: #f3f7f2;
+      --mint: #7ec8a3;
+      --teal: #1f6f5b;
+      --teal-deep: #0f3d33;
+      --sand: #e8f0e6;
+      --line: rgba(21, 32, 24, 0.12);
+      --shadow: 0 18px 50px rgba(15, 61, 51, 0.14);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, rgba(126, 200, 163, 0.45), transparent 55%),
+        radial-gradient(ellipse 70% 45% at 95% 15%, rgba(31, 111, 91, 0.18), transparent 50%),
+        linear-gradient(165deg, #eef5ec 0%, #dfece3 45%, #c9ddd2 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image:
+        linear-gradient(rgba(21, 32, 24, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 32, 24, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    }
+
+    .page {
+      position: relative;
+      width: min(920px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 3.5rem 0 4rem;
+    }
+
+    .brand {
+      font-family: "Literata", serif;
+      font-size: clamp(2.6rem, 7vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      color: var(--teal-deep);
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.7s ease forwards;
+    }
+
+    .tagline {
+      margin-top: 0.85rem;
+      max-width: 28ch;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.7s ease 0.12s forwards;
+    }
+
+    .translator {
+      margin-top: 2.4rem;
+      display: grid;
+      gap: 1.1rem;
+      opacity: 0;
+      transform: translateY(22px);
+      animation: rise 0.75s ease 0.22s forwards;
+    }
+
+    .langs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .lang {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(243, 247, 242, 0.72);
+      color: var(--ink-soft);
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .lang:hover {
+      transform: translateY(-1px);
+      border-color: rgba(31, 111, 91, 0.35);
+    }
+
+    .lang.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #f5fbf7;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+      background: rgba(243, 247, 242, 0.82);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .field-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1.1rem 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    textarea,
+    .output {
+      flex: 1;
+      width: 100%;
+      border: 0;
+      outline: 0;
+      resize: none;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 1.15rem;
+      line-height: 1.55;
+      padding: 0.4rem 1.1rem 1.1rem;
+    }
+
+    .output {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .output.placeholder {
+      color: rgba(58, 74, 63, 0.45);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0.85rem 1.35rem;
+      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: wait;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: var(--teal-deep);
+      color: #f4faf6;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #145044;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-soft);
+      border: 1px solid var(--line);
+    }
+
+    .status {
+      min-height: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+
+    .status.error {
+      color: #9b2c2c;
+    }
+
+    .footer-note {
+      margin-top: 1.6rem;
+      font-size: 0.85rem;
+      color: rgba(58, 74, 63, 0.75);
+      opacity: 0;
+      animation: rise 0.7s ease 0.35s forwards;
+    }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding-top: 2.4rem;
+      }
+
+      .panels {
+        grid-template-columns: 1fr;
+      }
+
+      .field {
+        min-height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1 class="brand">СловоМост</h1>
+    <p class="tagline">Онлайн переводчик с русского на английский, испанский, латинский и турецкий.</p>
+
+    <section class="translator" aria-label="Переводчик">
+      <div class="langs" role="tablist" aria-label="Язык перевода">
+        <button class="lang active" type="button" data-lang="en" role="tab" aria-selected="true">English</button>
+        <button class="lang" type="button" data-lang="es" role="tab" aria-selected="false">Español</button>
+        <button class="lang" type="button" data-lang="la" role="tab" aria-selected="false">Latina</button>
+        <button class="lang" type="button" data-lang="tr" role="tab" aria-selected="false">Türkçe</button>
+      </div>
+
+      <div class="panels">
+        <label class="field">
+          <div class="field-head">
+            <span>Русский</span>
+            <span id="charCount">0</span>
+          </div>
+          <textarea id="source" placeholder="Введите текст на русском…" maxlength="1000"></textarea>
+        </label>
+
+        <div class="field" aria-live="polite">
+          <div class="field-head">
+            <span id="targetLabel">English</span>
+            <span id="targetCode">EN</span>
+          </div>
+          <div class="output placeholder" id="output">Перевод появится здесь</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="translateBtn" type="button">Перевести</button>
+        <button class="btn btn-ghost" id="clearBtn" type="button">Очистить</button>
+        <button class="btn btn-ghost" id="copyBtn" type="button">Копировать</button>
+      </div>
+      <p class="status" id="status"></p>
+    </section>
+
+    <p class="footer-note">Перевод выполняется через MyMemory API. Для лучших результатов вводите короткие фразы.</p>
+  </main>
+
+  <script>
+    const LANGS = {
+      en: { name: "English", code: "EN" },
+      es: { name: "Español", code: "ES" },
+      la: { name: "Latina", code: "LA" },
+      tr: { name: "Türkçe", code: "TR" },
+    };
+
+    const source = document.getElementById("source");
+    const output = document.getElementById("output");
+    const statusEl = document.getElementById("status");
+    const charCount = document.getElementById("charCount");
+    const targetLabel = document.getElementById("targetLabel");
+    const targetCode = document.getElementById("targetCode");
+    const translateBtn = document.getElementById("translateBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const langButtons = [...document.querySelectorAll(".lang")];
+
+    let targetLang = "en";
+    let debounceTimer = null;
+
+    function setStatus(text, isError = false) {
+      statusEl.textContent = text;
+      statusEl.classList.toggle("error", isError);
+    }
+
+    function setOutput(text, isPlaceholder = false) {
+      output.textContent = text;
+      output.classList.toggle("placeholder", isPlaceholder);
+    }
+
+    function selectLang(lang) {
+      targetLang = lang;
+      const meta = LANGS[lang];
+      targetLabel.textContent = meta.name;
+      targetCode.textContent = meta.code;
+      langButtons.forEach((btn) => {
+        const active = btn.dataset.lang === lang;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-selected", String(active));
+      });
+      if (source.value.trim()) {
+        translate();
+      }
+    }
+
+    async function translate() {
+      const text = source.value.trim();
+      if (!text) {
+        setOutput("Перевод появится здесь", true);
+        setStatus("Введите текст для перевода.");
+        return;
+      }
+
+      translateBtn.disabled = true;
+      setStatus("Переводим…");
+
+      try {
+        const url =
+          "https://api.mymemory.translated.net/get?q=" +
+          encodeURIComponent(text) +
+          "&langpair=ru|" +
+          targetLang;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Сервер перевода недоступен");
+        }
+
+        const data = await response.json();
+        const translated = data?.responseData?.translatedText?.trim();
+
+        if (!translated || data.responseStatus !== 200) {
+          throw new Error(data?.responseDetails || "Не удалось получить перевод");
+        }
+
+        setOutput(translated, false);
+        setStatus("Готово");
+      } catch (error) {
+        setStatus(error.message || "Ошибка перевода", true);
+      } finally {
+        translateBtn.disabled = false;
+      }
+    }
+
+    function scheduleTranslate() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        if (source.value.trim()) {
+          translate();
+        }
+      }, 700);
+    }
+
+    langButtons.forEach((btn) => {
+      btn.addEventListener("click", () => selectLang(btn.dataset.lang));
+    });
+
+    source.addEventListener("input", () => {
+      charCount.textContent = String(source.value.length);
+      if (!source.value.trim()) {
+        setOutput("Перевод появится здесь", true);
+        setStatus("");
+        return;
+      }
+      scheduleTranslate();
+    });
+
+    source.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        translate();
+      }
+    });
+
+    translateBtn.addEventListener("click", translate);
+
+    clearBtn.addEventListener("click", () => {
+      source.value = "";
+      charCount.textContent = "0";
+      setOutput("Перевод появится здесь", true);
+      setStatus("");
+      source.focus();
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const text = output.classList.contains("placeholder") ? "" : output.textContent;
+      if (!text) {
+        setStatus("Нечего копировать.");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus("Перевод скопирован.");
+      } catch {
+        setStatus("Не удалось скопировать текст.", true);
+      }
+    });
+  </script>
+</body>
+</html>
