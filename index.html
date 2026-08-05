@@ -9,15 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink: #152018;
-      --ink-soft: #3a4a3f;
-      --paper: #f3f7f2;
-      --mint: #7ec8a3;
-      --teal: #1f6f5b;
-      --teal-deep: #0f3d33;
-      --line: rgba(21, 32, 24, 0.12);
-      --shadow: 0 18px 50px rgba(15, 61, 51, 0.14);
+      --ink: #2a2438;
+      --ink-soft: #5a5168;
+      --lilac: #b8a4d9;
+      --lavender: #c9b8e8;
+      --plum: #6d5a8d;
+      --plum-deep: #4a3a66;
+      --line: rgba(74, 58, 102, 0.14);
+      --shadow: 0 18px 50px rgba(90, 70, 130, 0.14);
       --radius: 18px;
+      --glass: rgba(255, 250, 255, 0.62);
     }
 
     * {
@@ -34,7 +35,8 @@
       font-family: "Manrope", sans-serif;
       color: var(--ink);
       overflow-x: hidden;
-      background: linear-gradient(160deg, #eaf3ee 0%, #e2ece8 40%, #d5e4dc 100%);
+      background:
+        linear-gradient(145deg, #f4eefc 0%, #ebe3f8 35%, #e4dcf5 65%, #efe8fa 100%);
     }
 
     .bg {
@@ -45,58 +47,87 @@
       z-index: 0;
     }
 
+    .bg-shimmer {
+      position: absolute;
+      inset: -20%;
+      background:
+        linear-gradient(
+          115deg,
+          rgba(232, 220, 255, 0.15) 0%,
+          rgba(255, 240, 250, 0.45) 22%,
+          rgba(210, 225, 255, 0.28) 45%,
+          rgba(245, 230, 255, 0.4) 68%,
+          rgba(230, 218, 255, 0.2) 100%
+        );
+      background-size: 220% 220%;
+      animation: shimmer-flow 16s ease-in-out infinite;
+      mix-blend-mode: soft-light;
+    }
+
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(70px);
-      opacity: 0.45;
+      filter: blur(72px);
+      opacity: 0.5;
       will-change: transform;
     }
 
     .orb-a {
-      width: 42vw;
-      height: 42vw;
-      max-width: 520px;
-      max-height: 520px;
-      left: -8%;
-      top: -12%;
-      background: #9fd4b8;
-      animation: drift-a 18s ease-in-out infinite;
+      width: 46vw;
+      height: 46vw;
+      max-width: 540px;
+      max-height: 540px;
+      left: -10%;
+      top: -14%;
+      background: #d8c6f2;
+      animation: drift-a 20s ease-in-out infinite;
     }
 
     .orb-b {
-      width: 36vw;
-      height: 36vw;
-      max-width: 440px;
-      max-height: 440px;
-      right: -6%;
-      top: 18%;
-      background: #7eb8a8;
-      opacity: 0.32;
-      animation: drift-b 22s ease-in-out infinite;
+      width: 38vw;
+      height: 38vw;
+      max-width: 460px;
+      max-height: 460px;
+      right: -8%;
+      top: 16%;
+      background: #c4b4eb;
+      opacity: 0.38;
+      animation: drift-b 24s ease-in-out infinite;
     }
 
     .orb-c {
-      width: 48vw;
-      height: 48vw;
-      max-width: 560px;
-      max-height: 560px;
-      left: 28%;
-      bottom: -22%;
-      background: #c8dfd2;
+      width: 50vw;
+      height: 50vw;
+      max-width: 580px;
+      max-height: 580px;
+      left: 26%;
+      bottom: -24%;
+      background: #e8d8f8;
       opacity: 0.55;
-      animation: drift-c 26s ease-in-out infinite;
+      animation: drift-c 28s ease-in-out infinite;
+    }
+
+    .orb-d {
+      width: 28vw;
+      height: 28vw;
+      max-width: 320px;
+      max-height: 320px;
+      left: 48%;
+      top: 38%;
+      background: #f0e4ff;
+      opacity: 0.35;
+      animation: drift-b 18s ease-in-out infinite reverse;
     }
 
     .bg-mesh {
       position: absolute;
       inset: 0;
-      opacity: 0.22;
+      opacity: 0.2;
       background-image:
-        radial-gradient(circle at 20% 20%, rgba(31, 111, 91, 0.08), transparent 28%),
-        radial-gradient(circle at 80% 30%, rgba(126, 200, 163, 0.12), transparent 32%),
-        linear-gradient(rgba(21, 32, 24, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(21, 32, 24, 0.025) 1px, transparent 1px);
+        radial-gradient(circle at 18% 22%, rgba(184, 164, 217, 0.22), transparent 30%),
+        radial-gradient(circle at 82% 28%, rgba(210, 190, 245, 0.18), transparent 34%),
+        linear-gradient(rgba(74, 58, 102, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 58, 102, 0.03) 1px, transparent 1px);
       background-size: auto, auto, 56px 56px, 56px 56px;
       mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
     }
@@ -115,7 +146,6 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1;
-      color: var(--teal-deep);
       opacity: 0;
       transform: translateY(18px);
       animation: rise 0.7s ease forwards;
@@ -123,7 +153,7 @@
 
     .brand span {
       display: inline-block;
-      background: linear-gradient(120deg, var(--teal-deep), var(--teal) 55%, #2d8a6f);
+      background: linear-gradient(120deg, #4a3a66, #6d5a8d 40%, #8b74b0 70%, #6d5a8d);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -133,7 +163,7 @@
 
     .tagline {
       margin-top: 0.85rem;
-      max-width: 32ch;
+      max-width: 34ch;
       font-size: 1.05rem;
       line-height: 1.5;
       color: var(--ink-soft);
@@ -151,16 +181,36 @@
       animation: rise 0.75s ease 0.22s forwards;
     }
 
-    .langs {
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.2rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .langs,
+    .voices {
       display: flex;
       flex-wrap: wrap;
       gap: 0.55rem;
+      align-items: center;
     }
 
-    .lang {
+    .voices-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--plum);
+      margin-right: 0.15rem;
+    }
+
+    .lang,
+    .voice {
       appearance: none;
       border: 1px solid var(--line);
-      background: rgba(243, 247, 242, 0.72);
+      background: rgba(255, 250, 255, 0.7);
       color: var(--ink-soft);
       font: inherit;
       font-weight: 600;
@@ -171,16 +221,18 @@
       transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .lang:hover {
+    .lang:hover,
+    .voice:hover {
       transform: translateY(-2px);
-      border-color: rgba(31, 111, 91, 0.35);
+      border-color: rgba(109, 90, 141, 0.35);
     }
 
-    .lang.active {
-      background: var(--teal);
-      border-color: var(--teal);
-      color: #f5fbf7;
-      box-shadow: 0 8px 22px rgba(31, 111, 91, 0.22);
+    .lang.active,
+    .voice.active {
+      background: var(--plum);
+      border-color: var(--plum);
+      color: #faf7ff;
+      box-shadow: 0 8px 22px rgba(109, 90, 141, 0.22);
     }
 
     .panels {
@@ -194,18 +246,18 @@
       display: flex;
       flex-direction: column;
       min-height: 280px;
-      background: rgba(243, 247, 242, 0.78);
+      background: var(--glass);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .field:focus-within {
       transform: translateY(-2px);
-      box-shadow: 0 22px 55px rgba(15, 61, 51, 0.16);
+      box-shadow: 0 22px 55px rgba(90, 70, 130, 0.16);
     }
 
     .field-head {
@@ -218,7 +270,7 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--teal);
+      color: var(--plum);
     }
 
     .head-actions {
@@ -233,8 +285,8 @@
       height: 34px;
       border: 1px solid var(--line);
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.45);
-      color: var(--teal-deep);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--plum-deep);
       display: inline-grid;
       place-items: center;
       cursor: pointer;
@@ -249,20 +301,14 @@
 
     .icon-btn:hover {
       transform: translateY(-1px) scale(1.04);
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
     }
 
     .icon-btn.speaking {
       color: #fff;
-      background: var(--teal);
-      border-color: var(--teal);
+      background: var(--plum);
+      border-color: var(--plum);
       animation: speak-pulse 1s ease-in-out infinite;
-    }
-
-    .icon-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
     }
 
     textarea,
@@ -286,7 +332,7 @@
     }
 
     .output.placeholder {
-      color: rgba(58, 74, 63, 0.45);
+      color: rgba(90, 81, 104, 0.45);
     }
 
     .output.reveal {
@@ -326,13 +372,13 @@
     }
 
     .btn-primary {
-      background: var(--teal-deep);
-      color: #f4faf6;
-      box-shadow: 0 10px 24px rgba(15, 61, 51, 0.18);
+      background: var(--plum-deep);
+      color: #faf7ff;
+      box-shadow: 0 10px 24px rgba(74, 58, 102, 0.2);
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #145044;
+      background: #3f3158;
     }
 
     .btn-primary.loading {
@@ -348,14 +394,14 @@
       width: 14px;
       height: 14px;
       margin-top: -7px;
-      border: 2px solid rgba(244, 250, 246, 0.35);
-      border-top-color: #f4faf6;
+      border: 2px solid rgba(250, 247, 255, 0.35);
+      border-top-color: #faf7ff;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
 
     .btn-ghost {
-      background: rgba(243, 247, 242, 0.55);
+      background: rgba(255, 250, 255, 0.55);
       color: var(--ink-soft);
       border: 1px solid var(--line);
     }
@@ -374,7 +420,7 @@
     .footer-note {
       margin-top: 1.6rem;
       font-size: 0.85rem;
-      color: rgba(58, 74, 63, 0.75);
+      color: rgba(90, 81, 104, 0.75);
       opacity: 0;
       animation: rise 0.7s ease 0.35s forwards;
     }
@@ -384,6 +430,11 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+
+    @keyframes shimmer-flow {
+      0%, 100% { background-position: 0% 40%; transform: translate3d(0, 0, 0); }
+      50% { background-position: 100% 60%; transform: translate3d(-1.5%, 1%, 0); }
     }
 
     @keyframes drift-a {
@@ -407,8 +458,8 @@
     }
 
     @keyframes speak-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(31, 111, 91, 0.35); }
-      50% { box-shadow: 0 0 0 10px rgba(31, 111, 91, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(109, 90, 141, 0.35); }
+      50% { box-shadow: 0 0 0 10px rgba(109, 90, 141, 0); }
     }
 
     @keyframes text-in {
@@ -438,10 +489,16 @@
       .field {
         min-height: 220px;
       }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
       .orb,
+      .bg-shimmer,
       .brand,
       .brand span,
       .tagline,
@@ -468,19 +525,29 @@
     <div class="orb orb-a"></div>
     <div class="orb orb-b"></div>
     <div class="orb orb-c"></div>
+    <div class="orb orb-d"></div>
+    <div class="bg-shimmer"></div>
     <div class="bg-mesh"></div>
   </div>
 
   <main class="page">
     <h1 class="brand"><span>Онлайн-переводчик</span></h1>
-    <p class="tagline">С русского на английский, испанский, латинский и турецкий — с озвучкой перевода.</p>
+    <p class="tagline">С русского на английский, испанский, латинский и турецкий — с выбором голоса озвучки.</p>
 
     <section class="translator" aria-label="Переводчик">
-      <div class="langs" role="tablist" aria-label="Язык перевода">
-        <button class="lang active" type="button" data-lang="en" role="tab" aria-selected="true">English</button>
-        <button class="lang" type="button" data-lang="es" role="tab" aria-selected="false">Español</button>
-        <button class="lang" type="button" data-lang="la" role="tab" aria-selected="false">Latina</button>
-        <button class="lang" type="button" data-lang="tr" role="tab" aria-selected="false">Türkçe</button>
+      <div class="toolbar">
+        <div class="langs" role="tablist" aria-label="Язык перевода">
+          <button class="lang active" type="button" data-lang="en" role="tab" aria-selected="true">English</button>
+          <button class="lang" type="button" data-lang="es" role="tab" aria-selected="false">Español</button>
+          <button class="lang" type="button" data-lang="la" role="tab" aria-selected="false">Latina</button>
+          <button class="lang" type="button" data-lang="tr" role="tab" aria-selected="false">Türkçe</button>
+        </div>
+
+        <div class="voices" role="group" aria-label="Голос озвучки">
+          <span class="voices-label">Голос</span>
+          <button class="voice active" type="button" data-gender="female" aria-pressed="true">Женский</button>
+          <button class="voice" type="button" data-gender="male" aria-pressed="false">Мужской</button>
+        </div>
       </div>
 
       <div class="panels">
@@ -520,7 +587,7 @@
       <p class="status" id="status"></p>
     </section>
 
-    <p class="footer-note">Перевод — MyMemory API, озвучка — голос браузера. Для лучших результатов вводите короткие фразы.</p>
+    <p class="footer-note">Перевод — MyMemory API, озвучка — голоса вашего браузера. Выберите женский или мужской голос перед прослушиванием.</p>
   </main>
 
   <script>
@@ -530,6 +597,26 @@
       la: { name: "Latina", code: "LA", voice: "it-IT" },
       tr: { name: "Türkçe", code: "TR", voice: "tr-TR" },
     };
+
+    const FEMALE_HINTS = [
+      "female", "woman", "zira", "susan", "samantha", "victoria", "karen",
+      "moira", "tessa", "fiona", "veena", "kate", "serena", "linda", "heather",
+      "hazel", "aria", "jenny", "natasha", "katya", "milena", "irina", "elena",
+      "sofia", "lucia", "paulina", "sabina", "yelda", "emel", "filiz", "google uk english female",
+      "microsoft irina", "microsoft helena", "microsoft sabina", "microsoft Elsa",
+    ];
+
+    const MALE_HINTS = [
+      "male", "man", "david", "mark", "daniel", "james", "george", "alex",
+      "tom", "fred", "bruce", "lee", "ravi", "oliver", "thomas", "richard",
+      "guy", "ryan", "pavel", "yuri", "dmitry", "igor", "jorge", "pablo",
+      "enrique", "alvaro", "ahmet", "tolga", "google uk english male",
+      "microsoft david", "microsoft pavel", "microsoft stefan", "microsoft ravi",
+    ];
+
+    const QUALITY_HINTS = [
+      "natural", "neural", "premium", "enhanced", "online", "google", "microsoft",
+    ];
 
     const source = document.getElementById("source");
     const output = document.getElementById("output");
@@ -544,8 +631,10 @@
     const speakSourceBtn = document.getElementById("speakSourceBtn");
     const speakTargetBtn = document.getElementById("speakTargetBtn");
     const langButtons = [...document.querySelectorAll(".lang")];
+    const voiceButtons = [...document.querySelectorAll(".voice")];
 
     let targetLang = "en";
+    let voiceGender = "female";
     let debounceTimer = null;
     let voices = [];
 
@@ -579,14 +668,54 @@
       }
       speakSourceBtn.classList.remove("speaking");
       speakTargetBtn.classList.remove("speaking");
-      speakBtn.classList.remove("speaking");
     }
 
-    function pickVoice(langTag) {
+    function matchesHints(text, hints) {
+      return hints.some((hint) => text.includes(hint.toLowerCase()));
+    }
+
+    function scoreVoice(voice, langTag, gender) {
+      const name = (voice.name || "").toLowerCase();
+      const lang = (voice.lang || "").toLowerCase();
+      const base = langTag.slice(0, 2).toLowerCase();
+      let score = 0;
+
+      if (lang === langTag.toLowerCase()) score += 40;
+      else if (lang.startsWith(base + "-")) score += 30;
+      else if (lang.startsWith(base)) score += 20;
+      else score -= 50;
+
+      const female = matchesHints(name, FEMALE_HINTS);
+      const male = matchesHints(name, MALE_HINTS);
+
+      if (gender === "female") {
+        if (female) score += 45;
+        if (male && !female) score -= 35;
+      } else {
+        if (male) score += 45;
+        if (female && !male) score -= 35;
+      }
+
+      if (matchesHints(name, QUALITY_HINTS)) score += 25;
+      if (name.includes("compact") || name.includes("eloquence")) score -= 8;
+      if (voice.localService === false) score += 8;
+
+      return score;
+    }
+
+    function pickVoice(langTag, gender) {
+      if (!voices.length) return null;
+
+      const ranked = voices
+        .map((voice) => ({ voice, score: scoreVoice(voice, langTag, gender) }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+      if (ranked.length) return ranked[0].voice;
+
       const base = langTag.slice(0, 2).toLowerCase();
       return (
-        voices.find((v) => v.lang === langTag) ||
-        voices.find((v) => v.lang.toLowerCase().startsWith(base + "-")) ||
+        voices.find((v) => v.lang.toLowerCase() === langTag.toLowerCase()) ||
         voices.find((v) => v.lang.toLowerCase().startsWith(base)) ||
         null
       );
@@ -605,21 +734,43 @@
       }
 
       stopSpeech();
+      loadVoices();
+
       const utterance = new SpeechSynthesisUtterance(content);
       utterance.lang = langTag;
-      utterance.rate = 0.95;
-      const voice = pickVoice(langTag);
-      if (voice) utterance.voice = voice;
+      utterance.rate = 0.92;
+      utterance.volume = 1;
+
+      const voice = pickVoice(langTag, voiceGender);
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang || langTag;
+      }
+
+      const name = (voice?.name || "").toLowerCase();
+      const clearlyFemale = matchesHints(name, FEMALE_HINTS);
+      const clearlyMale = matchesHints(name, MALE_HINTS);
+
+      if (voiceGender === "female") {
+        utterance.pitch = clearlyMale && !clearlyFemale ? 1.18 : 1.05;
+      } else {
+        utterance.pitch = clearlyFemale && !clearlyMale ? 0.82 : 0.92;
+      }
 
       utterance.onstart = () => button?.classList.add("speaking");
-      utterance.onend = () => button?.classList.remove("speaking");
+      utterance.onend = () => {
+        button?.classList.remove("speaking");
+        setStatus("Озвучка завершена");
+      };
       utterance.onerror = () => {
         button?.classList.remove("speaking");
         setStatus("Не удалось озвучить текст.", true);
       };
 
       window.speechSynthesis.speak(utterance);
-      setStatus("Озвучиваем…");
+      const genderLabel = voiceGender === "female" ? "женский" : "мужской";
+      const voiceName = voice ? ` (${voice.name})` : "";
+      setStatus(`Озвучиваем: ${genderLabel} голос${voiceName}`);
     }
 
     function getTranslationText() {
@@ -640,6 +791,17 @@
       if (source.value.trim()) {
         translate();
       }
+    }
+
+    function selectVoiceGender(gender) {
+      stopSpeech();
+      voiceGender = gender;
+      voiceButtons.forEach((btn) => {
+        const active = btn.dataset.gender === gender;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-pressed", String(active));
+      });
+      setStatus(gender === "female" ? "Выбран женский голос" : "Выбран мужской голос");
     }
 
     async function translate() {
@@ -695,6 +857,10 @@
 
     langButtons.forEach((btn) => {
       btn.addEventListener("click", () => selectLang(btn.dataset.lang));
+    });
+
+    voiceButtons.forEach((btn) => {
+      btn.addEventListener("click", () => selectVoiceGender(btn.dataset.gender));
     });
 
     source.addEventListener("input", () => {
